@@ -1,10 +1,10 @@
 {
-  "name": "react-swipe-card",
-  "version": "0.1.4",
+  "name": "react-swipe-card-chsstm",
+  "version": "0.1.1",
   "description": "Tinder style swipe cards",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexandre-garrec/react-swipe-card.git"
+    "url": "git+https://github.com/chsstm/react-swipe-card.git"
   },
   "main": "index.js",
   "scripts": {
