@@ -45,7 +45,6 @@ var SwipeCards = function (_Component) {
       containerSize: { x: 0, y: 0 }
     };
     _this.removeCard = _this.removeCard.bind(_this);
-    _this.setSize = _this.setSize.bind(_this);
     return _this;
   }
 
@@ -84,27 +83,6 @@ var SwipeCards = function (_Component) {
       }
     }
   }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.setSize();
-      window.addEventListener('resize', this.setSize);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      window.removeEventListener('resize', this.setSize);
-    }
-  }, {
-    key: 'setSize',
-    value: function setSize() {
-      var container = _reactDom2.default.findDOMNode(this);
-      var containerSize = {
-        x: container.offsetWidth,
-        y: container.offsetHeight
-      };
-      this.setState({ containerSize: containerSize });
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -112,21 +90,18 @@ var SwipeCards = function (_Component) {
       var _state = this.state,
           like = _state.like,
           dislike = _state.dislike,
-          index = _state.index,
-          containerSize = _state.containerSize;
+          index = _state.index;
       var _props2 = this.props,
           children = _props2.children,
           className = _props2.className,
           likeOverlay = _props2.likeOverlay,
           dislikeOverlay = _props2.dislikeOverlay;
 
-      if (!containerSize.x || !containerSize.y) return _react2.default.createElement('div', { className: className });
 
       var _cards = children.reduce(function (memo, c, i) {
         if (index > i) return memo;
         var props = _extends({
           key: i,
-          containerSize: containerSize,
           index: children.length - index
         }, _utils.DIRECTIONS.reduce(function (m, d) {
           return _extends({}, m, _defineProperty({}, 'onOutScreen' + d, function undefined() {

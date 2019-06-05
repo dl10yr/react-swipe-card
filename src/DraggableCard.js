@@ -51,12 +51,9 @@ class DraggableCard extends Component {
 
 
   resetPosition() {
-    const { x, y } = this.props.containerSize
-    const card = ReactDOM.findDOMNode(this)
-
     const initialPosition = {
-      x: Math.round((x - card.offsetWidth) / 2),
-      y: Math.round((y - card.offsetHeight) / 2)
+      x: 0,
+      y: 0
     }
 
     this.setState({

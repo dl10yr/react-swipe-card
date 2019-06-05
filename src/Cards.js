@@ -12,7 +12,6 @@ class SwipeCards extends Component {
       containerSize: { x: 0, y: 0 }
     }
     this.removeCard = this.removeCard.bind(this)
-    this.setSize = this.setSize.bind(this)
   }
   removeCard() {
     const { children, onEnd } = this.props
@@ -42,33 +41,14 @@ class SwipeCards extends Component {
     }
   }
 
-  componentDidMount() {
-    this.setSize()
-    window.addEventListener('resize', this.setSize)
-  }
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.setSize)
-  }
-
-  setSize() {
-    const container = ReactDOM.findDOMNode(this)
-    const containerSize = {
-      x: container.offsetWidth,
-      y: container.offsetHeight
-    }
-    this.setState({ containerSize });
-  }
-
   render() {
-    const { like, dislike, index, containerSize } = this.state
+    const { like, dislike, index } = this.state
     const { children, className, likeOverlay, dislikeOverlay } = this.props
-    if (!containerSize.x || !containerSize.y) return <div className={className} />
 
     const _cards = children.reduce((memo, c, i) => {
       if (index > i) return memo
       const props = {
         key: i,
-        containerSize,
         index: children.length - index,
         ...DIRECTIONS.reduce((m, d) =>
           ({ ...m, [`onOutScreen${d}`]: () => this.removeCard() }), {}),

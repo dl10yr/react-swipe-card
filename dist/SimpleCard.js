@@ -35,32 +35,10 @@ var Card = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
 
     _this.state = { initialPosition: { x: 0, y: 0 } };
-    _this.setInitialPosition = _this.setInitialPosition.bind(_this);
     return _this;
   }
 
   _createClass(Card, [{
-    key: 'setInitialPosition',
-    value: function setInitialPosition() {
-      var card = _reactDom2.default.findDOMNode(this);
-      var initialPosition = {
-        x: Math.round((this.props.containerSize.x - card.offsetWidth) / 2),
-        y: Math.round((this.props.containerSize.y - card.offsetHeight) / 2)
-      };
-      this.setState({ initialPosition: initialPosition });
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.setInitialPosition();
-      window.addEventListener('resize', this.setInitialPosition);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      window.removeEventListener('resize', this.setInitialPosition);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _state$initialPositio = this.state.initialPosition,

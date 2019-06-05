@@ -93,15 +93,9 @@ var DraggableCard = function (_Component) {
   }, {
     key: 'resetPosition',
     value: function resetPosition() {
-      var _props$containerSize = this.props.containerSize,
-          x = _props$containerSize.x,
-          y = _props$containerSize.y;
-
-      var card = _reactDom2.default.findDOMNode(this);
-
       var initialPosition = {
-        x: Math.round((x - card.offsetWidth) / 2),
-        y: Math.round((y - card.offsetHeight) / 2)
+        x: 0,
+        y: 0
       };
 
       this.setState({

@@ -1,3 +1,13 @@
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/chsstm/react-swipe-card/compare/0.1.4...0.1.2) (2019-06-05)
+
+
+
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/chsstm/react-swipe-card/compare/0.1.4...0.1.1) (2019-06-05)
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/chsstm/react-swipe-card/compare/0.1.4...0.1.0) (2019-06-05)
 
