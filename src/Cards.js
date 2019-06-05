@@ -6,6 +6,8 @@ class SwipeCards extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      like: false,
+      dislike: false,
       index: 0,
       containerSize: { x: 0, y: 0 }
     }
@@ -18,8 +20,26 @@ class SwipeCards extends Component {
     if (children.length === (this.state.index + 1) && onEnd) onEnd()
 
     this.setState({
+      like: false,
+      dislike: false,
       index: this.state.index + 1
     })
+  }
+
+  like() {
+    if (!this.state.like && !this.state.dislike) {
+      this.setState({
+        like: true
+      });
+    }
+  }
+
+  dislike() {
+    if (!this.state.like && !this.state.dislike) {
+      this.setState({
+        dislike: true
+      });
+    }
   }
 
   componentDidMount() {
@@ -36,11 +56,11 @@ class SwipeCards extends Component {
       x: container.offsetWidth,
       y: container.offsetHeight
     }
-    this.setState({ containerSize })
+    this.setState({ containerSize });
   }
 
   render() {
-    const { index, containerSize } = this.state
+    const { like, dislike, index, containerSize } = this.state
     const { children, className, likeOverlay, dislikeOverlay } = this.props
     if (!containerSize.x || !containerSize.y) return <div className={className} />
 
@@ -53,6 +73,8 @@ class SwipeCards extends Component {
         ...DIRECTIONS.reduce((m, d) =>
           ({ ...m, [`onOutScreen${d}`]: () => this.removeCard() }), {}),
         active: index === i,
+        like,
+        dislike,
         likeOverlay,
         dislikeOverlay
       }

@@ -32,6 +32,14 @@ class DraggableCard extends Component {
     window.addEventListener('resize', this.resetPosition)
   }
 
+  componentWillReceiveProps(props) {
+    if (props.like) {
+      this.onLike();
+    } else if (props.dislike) {
+      this.onDislike();
+    }
+  }
+
   componentWillUnmount() {
     if (this.hammer) {
       this.hammer.stop()
@@ -83,17 +91,35 @@ class DraggableCard extends Component {
     const direction = getDirection()
 
     if (this.props[`onSwipe${direction}`]) {
-      this.animateCard({
-        toX: this.state.initialPosition.x + Math.sign(ev.deltaX) * 5 * this.swipeThreshold,
-        duration: 100
-      }, () => {
-        this.props[`onSwipe${direction}`]()
-        this.props[`onOutScreen${direction}`](this.props.index)
-      })
+      if (direction === 'Right') {
+        this.onLike();
+      } else if (direction === 'Left') {
+        this.onDislike();
+      }
     } else {
       this.resetPosition()
       this.setState({ animation: true })
     }
+  }
+
+  onLike() {
+    this.animateCard({
+      toX: this.state.initialPosition.x + 5 * this.swipeThreshold,
+      duration: 100
+    }, () => {
+      this.props[`onSwipeRight`]()
+      this.props[`onOutScreenRight`](this.props.index)
+    });
+  }
+
+  onDislike() {
+    this.animateCard({
+      toX: this.state.initialPosition.x - 5 * this.swipeThreshold,
+      duration: 100
+    }, () => {
+      this.props[`onSwipeLeft`]()
+      this.props[`onOutScreenLeft`](this.props.index)
+    });
   }
 
   animateCard({ toX, duration = 100 }, callback) {

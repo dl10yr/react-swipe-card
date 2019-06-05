@@ -9,7 +9,10 @@ storiesOf('Tinder card', module)
   .add('simple', () => (
     <div>
       <h1>react swipe card</h1>
-      <Cards onEnd={action('end')} className='master-root'>
+      <Cards onEnd={action('end')} className='master-root'
+        likeOverlay={<div>Like</div>}
+        dislikeOverlay={<div>Dislike</div>}
+      >
         {data.map((item, key) =>
           <Card
             key={key}
@@ -26,7 +29,10 @@ storiesOf('Tinder card', module)
       <h1>react swipe card</h1>
       <Cards
         onEnd={action('end')}
-        className='master-root'>
+        className='master-root'
+        likeOverlay={<div>Like</div>}
+        dislikeOverlay={<div>Dislike</div>}
+      >
         {data.map((item, key) =>
           <Card
             key={key}
@@ -38,26 +44,39 @@ storiesOf('Tinder card', module)
       </Cards>
     </div>
   ))
-  .add('all swipe directions', () => (
-    <div>
-      <h1>react swipe card</h1>
-      <Cards
-        onEnd={action('end')}
-        className='master-root'
-        likeOverlay={<div>Like</div>}
-        dislikeOverlay={<div>Dislike</div>}
-      >
-        {data.map((item, key) =>
-          <Card
-            key={key}
-            onSwipeLeft={action('swipe left')}
-            onSwipeRight={action('swipe right')}
-          >
-            <h2>{item}</h2>
-          </Card>
-        )}
-      </Cards>
-      <button className={'action-button'}>Dislike</button>
-      <button className={'action-button'}>Like</button>
-    </div>
-  ))
+  .add('all swipe directions', () => {
+    let cards;
+    return (
+      <div>
+        <h1>react swipe card</h1>
+        <Cards
+          onEnd={action('end')}
+          className='master-root'
+          likeOverlay={<div>Like</div>}
+          dislikeOverlay={<div>Dislike</div>}
+          ref={(ref) => cards = ref}
+        >
+          {data.map((item, key) =>
+            <Card
+              key={key}
+              onSwipeLeft={action('swipe left')}
+              onSwipeRight={action('swipe right')}
+            >
+              <h2>{item}</h2>
+            </Card>
+          )}
+        </Cards>
+        <button className={'action-button'}
+          onClick={() => {
+            cards.dislike();
+          }}
+        >Dislike</button>
+        <button
+          className={'action-button'}
+          onClick={() => {
+            cards.like();
+          }}
+        >Like</button>
+      </div>
+    )
+  })
