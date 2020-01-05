@@ -37,6 +37,10 @@ class DraggableCard extends Component {
       this.onLike();
     } else if (props.dislike) {
       this.onDislike();
+    } else if (props.nolike) {
+      this.onNolike();
+    } else if (props.nolike2) {
+      this.onNolike2();
     }
   }
 
@@ -81,6 +85,9 @@ class DraggableCard extends Component {
       switch (true) {
         case (ev.deltaX < -this.swipeThreshold): return 'Left'
         case (ev.deltaX > this.swipeThreshold): return 'Right'
+        case (ev.deltaY < this.swipeThreshold): return 'Top'
+        case (ev.deltaY > this.swipeThreshold): return 'Bottom'
+          
         default: return false
       }
     }
@@ -92,6 +99,10 @@ class DraggableCard extends Component {
         this.onLike();
       } else if (direction === 'Left') {
         this.onDislike();
+      } else if (direction === 'Bottom') {
+        this.onNolike();
+      } else if (direction === 'Top') {
+        this.onNolike2();
       }
     } else {
       this.resetPosition()
@@ -118,19 +129,46 @@ class DraggableCard extends Component {
       this.props[`onOutScreenLeft`](this.props.index)
     });
   }
+  
+  onNolike() {
+    this.animateCard({
+      toY: this.state.initialPosition.y + 5 * this.swipeThreshold,
+      duration: 100
+    }, () => {
+      this.props[`onSwipeBottom`]()
+      this.props[`onOutScreenBottom`](this.props.index)
+    });
+  }
+  
+  onNolike2() {
+    this.animateCard({
+      toY: this.state.initialPosition.y - 5 * this.swipeThreshold,
+      duration: 100
+    }, () => {
+      this.props[`onSwipeTop`]()
+      this.props[`onOutScreenTop`](this.props.index)
+    });
+  }
 
-  animateCard({ toX, duration = 100 }, callback) {
+  animateCard({ toX = 0, toY = 0, duration = 100 }, callback) {
     let offset = toX - this.state.x;
+    let offset_Y = toY - this.state.y;
+    
     let changeOffset = offset / duration;
+    let changeOffset_Y = offset_Y / duration;
+    
 
     let animation = () => {
       let { x } = this.state
-      if ((toX < 0 && x + this.state.initialPosition.x <= toX) || (toX > 0 && x - this.state.initialPosition.x >= toX)) {
+      let { y } = this.state
+      if ((toX < 0 && x + this.state.initialPosition.x <= toX) || (toX > 0 && x - this.state.initialPosition.x >= toX) || (toY < 0 && y + this.state.initialPosition.y <= toY) || (toY > 0 && y - this.state.initialPosition.y >= toY)) {
         callback && callback()
         clearInterval(this.interval)
       } else {
         this.setState(state => ({
-          x: state.x + changeOffset
+          x: state.x + changeOffset,
+          y: state.y + changeOffset_Y,
+          
         }));
       }
     }
@@ -184,7 +222,7 @@ class DraggableCard extends Component {
       clamp: true
     });
 
-    let { likeOverlay, dislikeOverlay, ...restProps } = this.props;
+    let { likeOverlay, dislikeOverlay, nolikeOverlay, nolike2Overlay, ...restProps } = this.props;
 
     return (
       <SimpleCard
